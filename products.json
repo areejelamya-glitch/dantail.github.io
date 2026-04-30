@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1777144642727,
+    "name": "سحر البنفسج",
+    "category": "",
+    "price": 50,
+    "oldPrice": 60,
+    "discount": null,
+    "image": "1.jpg",
+    "rating": 4.5,
+    "reviews": 0,
+    "whatsapp": "972123456789",
+    "description": ""
+  },
+  {
+    "id": 1777471564213,
+    "name": "jhb",
+    "category": "قمصان نوم",
+    "price": 33,
+    "oldPrice": null,
+    "discount": null,
+    "image": "2.jpg",
+    "rating": 4.5,
+    "reviews": 0,
+    "whatsapp": "972123456789",
+    "description": ""
+  }
+]

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عربة التسوق • دانتيل</title>
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #fff5f9 0%, #fdf0f5 100%); color: #4a2e38; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: rgba(255,255,255,0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 40px; box-shadow: 0 25px 60px rgba(220,150,170,0.15); padding: 25px 20px 30px; }
+        h2 { font-family: 'El Messiri', serif; color: #9c3b5a; text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
+        .empty-cart { text-align: center; padding: 60px 20px; color: #b5836d; }
+        .empty-cart i { font-size: 4rem; margin-bottom: 20px; opacity: 0.6; }
+        .empty-cart a { display: inline-block; margin-top: 15px; background: #e87d9a; color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; }
+        .cart-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #ffcfde; }
+        .cart-item-img { width: 80px; height: 100px; background-size: cover; background-position: center; border-radius: 16px; border: 1px solid #f4c0d3; flex-shrink: 0; }
+        .cart-item-info { flex: 1; }
+        .cart-item-info h4 { color: #4a2e38; margin-bottom: 5px; }
+        .cart-item-info p { color: #9c3b5a; font-weight: bold; }
+        .quantity-control { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+        .quantity-control button { background: #ffe8f0; border: 1px solid #f4c0d3; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-family: 'Tajawal'; color: #9c3b5a; }
+        .remove-btn { background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; margin-right: 10px; }
+        .cart-summary { margin-top: 20px; padding-top: 20px; border-top: 2px solid #ffcfde; }
+        .total-price { font-size: 1.6rem; font-weight: bold; color: #9c3b5a; margin-bottom: 15px; }
+        .customer-info { background: rgba(255,255,255,0.9); border-radius: 24px; padding: 20px; margin: 15px 0; border: 1px solid #ffcfde; }
+        .customer-info h4 { color: #9c3b5a; margin-bottom: 15px; }
+        .customer-info input, .customer-info select { width: 100%; padding: 12px 16px; border: 1.5px solid #f4c0d3; border-radius: 25px; font-family: 'Tajawal'; margin-bottom: 10px; background: white; }
+        .send-order-btn { display: block; width: 100%; background: #25d366; color: white; border: none; padding: 16px; border-radius: 40px; font-size: 1.2rem; font-weight: 700; font-family: 'Tajawal'; cursor: pointer; transition: 0.3s; }
+        .send-order-btn:hover { background: #1da15b; }
+        .whatsapp-note { margin-top: 15px; background: #fff9e6; border: 1px solid #ffe0a3; border-radius: 20px; padding: 15px 20px; color: #8d6e63; font-size: 0.9rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .whatsapp-note i { color: #f0a500; }
+        .continue-shopping { display: inline-block; margin-top: 10px; color: #8d5a6b; text-decoration: none; font-weight: 500; }
+        .continue-shopping:hover { color: #9c3b5a; }
+        .search-box { display: flex; border: 1.5px solid #f4c0d3; border-radius: 40px; background: rgba(255,255,255,0.9); margin-bottom: 20px; }
+        .search-box input { flex: 1; padding: 12px 20px; border: none; background: transparent; }
+        .search-box button { background: transparent; border: none; padding: 0 20px; color: #c45173; border-right: 1px solid #f4c0d3; }
+        @media (max-width: 500px) { .cart-item { flex-wrap: wrap; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2><i class="fas fa-shopping-bag" style="margin-left:10px;"></i> عربة التسوق</h2>
+    <form class="search-box" action="shop.html" method="get">
+        <input type="text" name="search" placeholder="ابحثي عن منتج...">
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+    <div id="cartItems"></div>
+    <div id="cartSummary" class="cart-summary"></div>
+    <a href="index.html" class="continue-shopping"><i class="fas fa-arrow-right"></i> متابعة التسوق</a>
+</div>
+
+<script src="products.js"></script>
+<script>
+    const deliveryFees = {
+        'الوسطى': 15,
+        'غزة': 20,
+        'الجنوب': 25
+    };
+
+    async function renderCart() {
+        const cart = getCart();
+        const products = await loadProducts();
+        const cartContainer = document.getElementById('cartItems');
+        const summaryContainer = document.getElementById('cartSummary');
+        if (cart.length === 0) {
+            cartContainer.innerHTML = `<div class="empty-cart"><i class="fas fa-shopping-cart"></i><h3>العربة فارغة</h3><p>لم تقومي بإضافة منتجات بعد</p><a href="index.html">تصفحي المنتجات</a></div>`;
+            summaryContainer.innerHTML = '';
+            return;
+        }
+        let cartHTML = '';
+        cart.forEach(item => {
+            const prod = products.find(p => p.id === item.productId);
+            if (!prod) return;
+            const imgUrl = getImageUrl(prod.image);
+            cartHTML += `<div class="cart-item"><div class="cart-item-img" style="background-image: url('${imgUrl}');"></div><div class="cart-item-info"><h4>${prod.name}</h4><p>${prod.price} شيكل</p><div class="quantity-control"><button onclick="changeQty(${item.productId}, -1)">−</button><span>${item.quantity}</span><button onclick="changeQty(${item.productId}, 1)">+</button></div></div><button class="remove-btn" onclick="removeItem(${item.productId})"><i class="fas fa-trash-alt"></i></button></div>`;
+        });
+        cartContainer.innerHTML = cartHTML;
+        const productsTotal = await getCartTotal();
+        summaryContainer.innerHTML = `
+            <div class="customer-info">
+                <h4>معلوماتكِ</h4>
+                <input type="text" id="customerName" placeholder="الاسم الكامل">
+                <input type="tel" id="customerPhone" placeholder="رقم الهاتف">
+                <select id="customerRegion">
+                    <option value="">اختاري منطقتك</option>
+                    <option value="الوسطى">الوسطى (15 شيكل)</option>
+                    <option value="غزة">غزة (20 شيكل)</option>
+                    <option value="الجنوب">الجنوب (25 شيكل)</option>
+                </select>
+            </div>
+            <div class="total-price">إجمالي المنتجات: ${productsTotal} شيكل</div>
+            <button class="send-order-btn" onclick="sendOrder()"><i class="fab fa-whatsapp"></i> إرسال الطلب عبر واتساب</button>
+            <div class="whatsapp-note"><i class="fas fa-info-circle"></i><span>بعد الضغط على الزر، سيتم فتح واتساب. <strong>اضغطي على زر الإرسال</strong> لتأكيد الطلب.</span></div>`;
+    }
+
+    function changeQty(productId, delta) {
+        let cart = getCart();
+        const item = cart.find(i => i.productId === productId);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) cart = cart.filter(i => i.productId !== productId);
+            saveCart(cart);
+            updateCartCount();
+            renderCart();
+        }
+    }
+
+    function removeItem(productId) { removeFromCart(productId); renderCart(); }
+
+    async function sendOrder() {
+        const cart = getCart();
+        const products = await loadProducts();
+        if (cart.length === 0) return alert('العربة فارغة!');
+        const custName = document.getElementById('customerName')?.value.trim() || 'لم يُذكر';
+        const custPhone = document.getElementById('customerPhone')?.value.trim() || 'لم يُذكر';
+        const custRegion = document.getElementById('customerRegion')?.value || 'لم يحدد';
+
+        // حساب رسوم التوصيل
+        const deliveryFee = deliveryFees[custRegion] || 0;
+
+        // الإجمالي قبل التوصيل
+        const productsTotal = await getCartTotal();
+
+        // نصف ثمن المنتجات + رسوم التوصيل يدفع مقدمًا
+        const advancePayment = Math.ceil(productsTotal / 2) + deliveryFee;
+        const remainingPayment = productsTotal - Math.ceil(productsTotal / 2);
+
+        let message = '🛒 *طلب جديد من دانتيل*\n\n';
+        message += `👤 الاسم: ${custName}\n📞 الهاتف: ${custPhone}\n📍 المنطقة: ${custRegion} (رسوم التوصيل: ${deliveryFee} شيكل)\n\n`;
+        message += `📦 *المنتجات المطلوبة:*\n`;
+        cart.forEach(item => {
+            const prod = products.find(p => p.id === item.productId);
+            if (prod) {
+                const imgUrl = getImageUrl(prod.image);
+                message += `✅ ${prod.name} (${item.quantity} قطعة) – ${prod.price * item.quantity} شيكل\n📷 الصورة: ${imgUrl}\n`;
+            }
+        });
+        message += `\n💰 *إجمالي المنتجات: ${productsTotal} شيكل*\n`;
+        message += `🚚 رسوم التوصيل: ${deliveryFee} شيكل\n`;
+        message += `💳 *المطلوب دفعه الآن (مقدم + توصيل): ${advancePayment} شيكل*\n`;
+        message += `📦 المتبقي عند الاستلام: ${remainingPayment} شيكل\n\n`;
+        message += `📍 يرجى تأكيد الطلب والمقاسات.\n`;
+        message += `⚠️ سياسة الإرجاع: يمكن استرداد المنتج في نفس اليوم بشرط بقائه بحالته الأصلية.`;
+
+        const waNumber = '972123456789'; // ← غيريه إلى رقمك
+        window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        clearCart();
+        renderCart();
+    }
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+</body>
+</html>

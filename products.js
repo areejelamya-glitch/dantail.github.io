@@ -15,7 +15,7 @@ function getImageUrl(imageInput) {
 
 async function loadProducts() {
     try {
-     const response = await fetch('/dantail.github.io/products.json');
+        const response = await fetch('products.json');
         if (response.ok) return await response.json();
     } catch (e) {}
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -30,20 +30,92 @@ function saveProductsLocal(productsArray) {
 }
 
 // ========== العربة ==========
-function getCart() { /* ... بدون تغيير ... */ }
-function saveCart(cart) { /* ... بدون تغيير ... */ }
-function addToCart(productId) { /* ... بدون تغيير ... */ }
-function removeFromCart(productId) { /* ... بدون تغيير ... */ }
-function clearCart() { /* ... بدون تغيير ... */ }
-async function getCartTotal() { /* ... بدون تغيير ... */ }
-function updateCartCount() { /* ... بدون تغيير ... */ }
+function getCart() {
+    const cart = localStorage.getItem(CART_KEY);
+    return cart ? JSON.parse(cart) : [];
+}
+function saveCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+function addToCart(productId) {
+    let cart = getCart();
+    const existing = cart.find(item => item.productId === productId);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({ productId: productId, quantity: 1 });
+    }
+    saveCart(cart);
+    updateCartCount();
+    alert('✅ تمت إضافة المنتج إلى العربة');
+}
+function removeFromCart(productId) {
+    let cart = getCart();
+    cart = cart.filter(item => item.productId !== productId);
+    saveCart(cart);
+    updateCartCount();
+}
+function clearCart() {
+    localStorage.removeItem(CART_KEY);
+    updateCartCount();
+}
+async function getCartTotal() {
+    const cart = getCart();
+    const products = await loadProducts();
+    return cart.reduce((total, item) => {
+        const prod = products.find(p => p.id === item.productId);
+        return total + (prod ? prod.price * item.quantity : 0);
+    }, 0);
+}
+function updateCartCount() {
+    const cart = getCart();
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const countElements = document.querySelectorAll('.cart-count');
+    countElements.forEach(el => {
+        el.textContent = totalItems;
+        el.style.display = totalItems > 0 ? 'inline-block' : 'none';
+    });
+}
 
 // ========== المفضلة ==========
-function getFavorites() { /* ... بدون تغيير ... */ }
-function saveFavorites(favs) { /* ... بدون تغيير ... */ }
-function isFavorite(productId) { /* ... بدون تغيير ... */ }
-function toggleFavorite(productId) { /* ... بدون تغيير ... */ }
-function updateFavoriteIcons() { /* ... بدون تغيير ... */ }
+function getFavorites() {
+    const favs = localStorage.getItem(FAVORITES_KEY);
+    return favs ? JSON.parse(favs) : [];
+}
+function saveFavorites(favs) {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
+}
+function isFavorite(productId) {
+    const favs = getFavorites();
+    return favs.includes(productId);
+}
+function toggleFavorite(productId) {
+    let favs = getFavorites();
+    if (favs.includes(productId)) {
+        favs = favs.filter(id => id !== productId);
+    } else {
+        favs.push(productId);
+    }
+    saveFavorites(favs);
+    updateFavoriteIcons();
+    if (window.location.pathname.includes('favorites.html')) {
+        renderFavorites();
+    }
+}
+function updateFavoriteIcons() {
+    document.querySelectorAll('.fav-icon').forEach(icon => {
+        const pid = Number(icon.dataset.productId);
+        if (isFavorite(pid)) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            icon.style.color = '#e87d9a';
+        } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            icon.style.color = '#9c3b5a';
+        }
+    });
+}
 
 // ========== عرض المنتجات (يدعم التصنيف والبحث) ==========
 async function renderProducts(containerSelector, filterCategory = null, searchTerm = null) {
@@ -77,7 +149,7 @@ async function renderProducts(containerSelector, filterCategory = null, searchTe
             ${discountBadge}
             <i class="fav-icon ${heartIcon} fa-heart" data-product-id="${product.id}" onclick="event.preventDefault(); toggleFavorite(${product.id});" style="position:absolute; top:14px; left:14px; z-index:3; cursor:pointer; font-size:1.2rem; color:${heartColor}; background:rgba(255,255,255,0.8); padding:6px; border-radius:50%;"></i>
             <a href="product.html?id=${product.id}" style="text-decoration:none; color:inherit;">
-                <div class="product-img" style="background-image: url('${imageUrl}');"></div>
+                <div class="product-img lazyload" data-bg="${imageUrl}" style="background-color:#fdfbf9; background-size:cover; background-position:center;"></div>
                 <div class="product-title">${product.name}</div>
             </a>
             <div class="product-info">
@@ -93,5 +165,42 @@ async function renderProducts(containerSelector, filterCategory = null, searchTe
             </div>`;
         container.appendChild(card);
     });
+
+    // تفعيل التحميل الكسول للصور المضافة حديثًا
+    observeLazyImages();
 }
-document.addEventListener('DOMContentLoaded', updateCartCount);
+
+// ========== نظام التحميل الكسول (Lazy Loading) ==========
+const lazyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const imgDiv = entry.target;
+            const bg = imgDiv.dataset.bg;
+            if (bg) {
+                // إنشاء صورة حقيقية لتحميلها في الخلفية
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    imgDiv.style.backgroundImage = `url('${bg}')`;
+                    imgDiv.classList.add('loaded');
+                };
+                tempImg.onerror = () => {
+                    // في حال فشل التحميل، نضع صورة بديلة
+                    imgDiv.style.backgroundImage = "url('https://placehold.co/400x600/eee/999?text=No+Image')";
+                    imgDiv.classList.add('loaded');
+                };
+                tempImg.src = bg;
+                lazyObserver.unobserve(imgDiv);
+            }
+        }
+    });
+}, { rootMargin: "150px" }); // يبدأ التحميل قبل 150 بكسل من ظهور العنصر
+
+function observeLazyImages() {
+    document.querySelectorAll('.lazyload:not(.loaded)').forEach(el => lazyObserver.observe(el));
+}
+
+// محاولة أولية لمراقبة أي صور موجودة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+    observeLazyImages();
+});

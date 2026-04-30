@@ -30,21 +30,13 @@ function saveProductsLocal(productsArray) {
 }
 
 // ========== العربة ==========
-function getCart() {
-    const cart = localStorage.getItem(CART_KEY);
-    return cart ? JSON.parse(cart) : [];
-}
-function saveCart(cart) {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
-}
+function getCart() { const cart = localStorage.getItem(CART_KEY); return cart ? JSON.parse(cart) : []; }
+function saveCart(cart) { localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
 function addToCart(productId) {
     let cart = getCart();
     const existing = cart.find(item => item.productId === productId);
-    if (existing) {
-        existing.quantity += 1;
-    } else {
-        cart.push({ productId: productId, quantity: 1 });
-    }
+    if (existing) { existing.quantity += 1; }
+    else { cart.push({ productId: productId, quantity: 1 }); }
     saveCart(cart);
     updateCartCount();
     alert('✅ تمت إضافة المنتج إلى العربة');
@@ -55,10 +47,7 @@ function removeFromCart(productId) {
     saveCart(cart);
     updateCartCount();
 }
-function clearCart() {
-    localStorage.removeItem(CART_KEY);
-    updateCartCount();
-}
+function clearCart() { localStorage.removeItem(CART_KEY); updateCartCount(); }
 async function getCartTotal() {
     const cart = getCart();
     const products = await loadProducts();
@@ -70,58 +59,39 @@ async function getCartTotal() {
 function updateCartCount() {
     const cart = getCart();
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const countElements = document.querySelectorAll('.cart-count');
-    countElements.forEach(el => {
+    document.querySelectorAll('.cart-count').forEach(el => {
         el.textContent = totalItems;
         el.style.display = totalItems > 0 ? 'inline-block' : 'none';
     });
 }
 
 // ========== المفضلة ==========
-function getFavorites() {
-    const favs = localStorage.getItem(FAVORITES_KEY);
-    return favs ? JSON.parse(favs) : [];
-}
-function saveFavorites(favs) {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
-}
-function isFavorite(productId) {
-    const favs = getFavorites();
-    return favs.includes(productId);
-}
+function getFavorites() { const favs = localStorage.getItem(FAVORITES_KEY); return favs ? JSON.parse(favs) : []; }
+function saveFavorites(favs) { localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs)); }
+function isFavorite(productId) { return getFavorites().includes(productId); }
 function toggleFavorite(productId) {
     let favs = getFavorites();
-    if (favs.includes(productId)) {
-        favs = favs.filter(id => id !== productId);
-    } else {
-        favs.push(productId);
-    }
+    if (favs.includes(productId)) { favs = favs.filter(id => id !== productId); }
+    else { favs.push(productId); }
     saveFavorites(favs);
     updateFavoriteIcons();
-    if (window.location.pathname.includes('favorites.html')) {
-        renderFavorites();
-    }
+    if (window.location.pathname.includes('favorites.html')) { renderFavorites(); }
 }
 function updateFavoriteIcons() {
     document.querySelectorAll('.fav-icon').forEach(icon => {
         const pid = Number(icon.dataset.productId);
         if (isFavorite(pid)) {
-            icon.classList.remove('far');
-            icon.classList.add('fas');
-            icon.style.color = '#e87d9a';
+            icon.classList.remove('far'); icon.classList.add('fas'); icon.style.color = '#e87d9a';
         } else {
-            icon.classList.remove('fas');
-            icon.classList.add('far');
-            icon.style.color = '#9c3b5a';
+            icon.classList.remove('fas'); icon.classList.add('far'); icon.style.color = '#9c3b5a';
         }
     });
 }
 
-// ========== عرض المنتجات (يدعم التصنيف والبحث) ==========
+// ========== عرض المنتجات مع Lazy Loading محسن ==========
 async function renderProducts(containerSelector, filterCategory = null, searchTerm = null) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
-
     let productsToShow = await loadProducts();
     if (filterCategory) productsToShow = productsToShow.filter(p => p.category === filterCategory);
     if (searchTerm) {
@@ -140,8 +110,7 @@ async function renderProducts(containerSelector, filterCategory = null, searchTe
         const discountBadge = product.discount ? `<span class="discount-badge">${product.discount}</span>` : '';
         const oldPriceHtml = product.oldPrice ? `<span class="old-price">${product.oldPrice} شيكل</span>` : '';
         const stars = '★'.repeat(Math.floor(product.rating || 0)) + '☆'.repeat(5 - Math.floor(product.rating || 0));
-        const waMessage = encodeURIComponent(`مرحباً، أريد الاستفسار عن: ${product.name}`);
-        const waLink = `https://wa.me/${product.whatsapp}?text=${waMessage}`;
+        const waLink = `https://wa.me/${product.whatsapp}?text=${encodeURIComponent('مرحباً، أريد الاستفسار عن: ' + product.name)}`;
         const imageUrl = getImageUrl(product.image);
         const heartIcon = isFavorite(product.id) ? 'fas' : 'far';
         const heartColor = isFavorite(product.id) ? '#e87d9a' : '#9c3b5a';
@@ -149,7 +118,7 @@ async function renderProducts(containerSelector, filterCategory = null, searchTe
             ${discountBadge}
             <i class="fav-icon ${heartIcon} fa-heart" data-product-id="${product.id}" onclick="event.preventDefault(); toggleFavorite(${product.id});" style="position:absolute; top:14px; left:14px; z-index:3; cursor:pointer; font-size:1.2rem; color:${heartColor}; background:rgba(255,255,255,0.8); padding:6px; border-radius:50%;"></i>
             <a href="product.html?id=${product.id}" style="text-decoration:none; color:inherit;">
-                <div class="product-img lazyload" data-bg="${imageUrl}" style="background-color:#fdfbf9; background-size:cover; background-position:center;"></div>
+                <div class="product-img lazyload" data-bg="${imageUrl}" style="background-color:#fdfbf9; background-size:cover; background-position:center; transition: opacity 0.4s ease; opacity:0;"></div>
                 <div class="product-title">${product.name}</div>
             </a>
             <div class="product-info">
@@ -165,27 +134,25 @@ async function renderProducts(containerSelector, filterCategory = null, searchTe
             </div>`;
         container.appendChild(card);
     });
-
-    // تفعيل التحميل الكسول للصور المضافة حديثًا
     observeLazyImages();
 }
 
-// ========== نظام التحميل الكسول (Lazy Loading) ==========
+// ========== Lazy Loading Observer (محسن) ==========
 const lazyObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const imgDiv = entry.target;
             const bg = imgDiv.dataset.bg;
-            if (bg) {
-                // إنشاء صورة حقيقية لتحميلها في الخلفية
+            if (bg && !imgDiv.classList.contains('loaded')) {
                 const tempImg = new Image();
                 tempImg.onload = () => {
                     imgDiv.style.backgroundImage = `url('${bg}')`;
+                    imgDiv.style.opacity = '1';
                     imgDiv.classList.add('loaded');
                 };
                 tempImg.onerror = () => {
-                    // في حال فشل التحميل، نضع صورة بديلة
                     imgDiv.style.backgroundImage = "url('https://placehold.co/400x600/eee/999?text=No+Image')";
+                    imgDiv.style.opacity = '1';
                     imgDiv.classList.add('loaded');
                 };
                 tempImg.src = bg;
@@ -193,13 +160,12 @@ const lazyObserver = new IntersectionObserver((entries) => {
             }
         }
     });
-}, { rootMargin: "150px" }); // يبدأ التحميل قبل 150 بكسل من ظهور العنصر
+}, { rootMargin: "300px" }); // تأخير أقل، تحميل أبكر
 
 function observeLazyImages() {
     document.querySelectorAll('.lazyload:not(.loaded)').forEach(el => lazyObserver.observe(el));
 }
 
-// محاولة أولية لمراقبة أي صور موجودة عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
     observeLazyImages();

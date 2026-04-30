@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المتجر • دانتيل</title>
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #fff5f9 0%, #fdf0f5 100%); color: #4a2e38; padding: 0 12px 20px; }
+        .container { max-width: 1300px; margin: 0 auto; background: rgba(255,255,255,0.75); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 50px; padding: 0 0 30px; box-shadow: 0 25px 60px rgba(220,150,170,0.15); border: 1px solid rgba(255,255,255,0.6); }
+        .top-promo { background: linear-gradient(135deg, #ffe8f0, #ffd9e5); color: #ad4b6e; padding: 10px 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #ffcfde; }
+        .promo-left i { color: #d47a96; }
+        .promo-right a { color: #ad4b6e; text-decoration: none; margin: 0 8px; }
+        .header-main { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px 10px; flex-wrap: wrap; }
+        .logo h1 { font-family: 'El Messiri', serif; font-size: 2.8rem; font-weight: 600; background: linear-gradient(to right, #c45173, #9c3b5a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo span { color: #c45173; font-size: 1rem; font-family: 'Cairo', sans-serif; }
+        .search-box { flex: 0 1 380px; display: flex; border: 1.5px solid #f4c0d3; border-radius: 40px; background: rgba(255,255,255,0.9); }
+        .search-box input { flex: 1; padding: 12px 20px; border: none; background: transparent; }
+        .search-box button { background: transparent; border: none; padding: 0 20px; color: #c45173; border-right: 1px solid #f4c0d3; }
+        .header-icons { display: flex; gap: 22px; font-size: 1.4rem; color: #9c3b5a; align-items: center; }
+        .header-icons a { color: #9c3b5a; text-decoration: none; position: relative; }
+        .cart-count { position: absolute; top: -8px; left: -10px; background: #e87d9a; color: white; font-size: 0.65rem; width: 18px; height: 18px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; }
+        .nav-menu { margin: 15px 25px 25px; border-bottom: 1px solid #ffcfde; padding-bottom: 10px; overflow-x: auto; }
+        .nav-menu ul { display: flex; list-style: none; gap: 28px; }
+        .nav-menu li a { text-decoration: none; color: #8d5a6b; font-weight: 500; padding-bottom: 8px; border-bottom: 2px solid transparent; font-family: 'Cairo', sans-serif; }
+        .nav-menu li a:hover, .nav-menu li.active a { border-bottom-color: #e87d9a; color: #9c3b5a; }
+        .shop-layout { display: flex; gap: 30px; margin-top: 20px; padding: 0 25px; }
+        .filter-sidebar { width: 230px; flex-shrink: 0; }
+        .filter-box { border: 1px solid #ffcfde; border-radius: 30px; padding: 20px; margin-bottom: 20px; }
+        .filter-box h4 { margin-bottom: 15px; color: #9c3b5a; font-family: 'Cairo', sans-serif; }
+        .filter-box ul { list-style: none; }
+        .filter-box li { margin-bottom: 10px; color: #4a2e38; }
+        .product-grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+        .product-card { background: rgba(255,255,255,0.9); border-radius: 30px; border: 1px solid #ffcfde; transition: all 0.4s; overflow: hidden; }
+        .product-card:hover { box-shadow: 0 20px 40px rgba(200,120,150,0.15); border-color: #e87d9a; transform: translateY(-8px); }
+        .discount-badge { position: absolute; top: 14px; right: 14px; background: #e87d9a; color: white; padding: 5px 14px; border-radius: 25px; font-size: 0.8rem; font-weight: 700; }
+        .product-img { width: 100%; aspect-ratio: 3/4; background-size: cover; border-radius: 25px 25px 0 0; border-bottom: 1px solid #ffcfde; }
+        .product-info { padding: 10px 15px 18px; }
+        .product-title { font-weight: 600; font-size: 1rem; margin-bottom: 8px; }
+        .price-wrapper { display: flex; gap: 10px; margin: 10px 0 12px; }
+        .current-price { font-weight: 700; font-size: 1.3rem; color: #9c3b5a; }
+        .old-price { color: #b5838c; text-decoration: line-through; }
+        .product-actions { display: flex; flex-direction: column; gap: 8px; }
+        .btn-cart { background: white; color: #9c3b5a; border: 1.5px solid #e87d9a; padding: 10px 0; border-radius: 30px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-cart:hover { background: #ffe8f0; }
+        .btn-wa { background: #9c3b5a; color: white; padding: 10px 0; border-radius: 30px; text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-wa:hover { background: white; color: #9c3b5a; }
+        .footer { margin: 40px 25px 0; border-top: 1px solid #ffcfde; padding-top: 25px; display: flex; justify-content: space-between; color: #8d5a6b; }
+        @media (max-width: 768px) { .shop-layout { flex-direction: column; } .filter-sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-promo">
+        <div class="promo-left"><span><i class="fas fa-truck"></i> توصيل مجاني فوق ٢٠٠ شيكل</span><span><i class="fas fa-undo-alt"></i> معاينة قبل الدفع</span></div>
+        <div class="promo-right"><a href="#">من نحن</a><a href="#">اتصل بنا</a><a href="faq.html">مساعدة</a></div>
+    </div>
+    <div class="header-main">
+        <div class="logo"><h1>دانتيل</h1><div style="font-size:0.85rem; color:#b2536e;">ليلتكِ أجمل معنا</div></div>
+        <form class="search-box" action="shop.html" method="get">
+            <input type="text" name="search" placeholder="ابحثي في المتجر...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        <div class="header-icons">
+            <a href="favorites.html"><i class="far fa-heart"></i></a>
+            <a href="cart.html" style="position:relative;"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
+        </div>
+    </div>
+    <div class="nav-menu">
+        <ul>
+            <li><a href="index.html">الرئيسية</a></li>
+            <li class="active"><a href="shop.html">المتجر</a></li>
+            <li><a href="shop.html?category=قمصان%20نوم">قمصان نوم</a></li>
+            <li><a href="shop.html?category=بيجامات">بيجامات</a></li>
+            <li><a href="shop.html?category=أرواب">أرواب</a></li>
+        </ul>
+    </div>
+
+    <div class="shop-layout">
+        <aside class="filter-sidebar">
+            <div class="filter-box">
+                <h4>الفئات</h4>
+                <ul>
+                    <li><a href="shop.html?category=قمصان%20نوم" style="color:#4a2e38; text-decoration:none;">🌸 قمصان نوم</a></li>
+                    <li><a href="shop.html?category=بيجامات" style="color:#4a2e38; text-decoration:none;">🌸 بيجامات</a></li>
+                    <li><a href="shop.html?category=أرواب" style="color:#4a2e38; text-decoration:none;">🌸 أرواب</a></li>
+                </ul>
+            </div>
+        </aside>
+        <div class="product-grid"></div>
+    </div>
+
+    <div class="footer">
+        <div>© ٢٠٢٥ دانتيل • جميع الحقوق محفوظة</div>
+        <div><a href="faq.html" style="color:#8d5a6b;">مساعدة</a></div>
+    </div>
+</div>
+
+<script src="products.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const category = params.get('category');
+        const search = params.get('search');
+        renderProducts('.product-grid', category, search);
+    });
+</script>
+</body>
+</html>

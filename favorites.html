@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفضلتي • دانتيل</title>
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #fff5f9 0%, #fdf0f5 100%); color: #4a2e38; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: rgba(255,255,255,0.85); backdrop-filter: blur(15px); border-radius: 40px; padding: 25px 20px 30px; }
+        h2 { font-family: 'El Messiri', serif; color: #9c3b5a; text-align: center; margin-bottom: 25px; }
+
+        /* تحسين عرض المنتجات على الجوال: عمودين */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        .product-card { background: rgba(255,255,255,0.9); border-radius: 30px; border: 1px solid #ffcfde; position: relative; transition: 0.4s; overflow: hidden; }
+        .product-card:hover { box-shadow: 0 20px 40px rgba(200,120,150,0.15); transform: translateY(-5px); }
+        .discount-badge { position: absolute; top:14px; right:14px; background:#e87d9a; color:white; padding:5px 14px; border-radius:25px; font-size:0.8rem; font-weight:700; z-index:2; }
+        .product-img { width:100%; aspect-ratio:3/4; background-size:cover; border-radius:25px 25px 0 0; }
+        .product-info { padding:10px 15px 18px; }
+        .product-title { font-weight:600; margin-bottom:8px; font-size:1rem; }
+        .price-wrapper { display:flex; gap:10px; margin:10px 0 12px; }
+        .current-price { font-weight:700; font-size:1.3rem; color:#9c3b5a; }
+        .old-price { color:#b5838c; text-decoration:line-through; }
+        .btn-cart { background:white; color:#9c3b5a; border:1.5px solid #e87d9a; padding:10px 0; border-radius:30px; font-weight:600; cursor:pointer; width:100%; margin-top:8px; font-family: 'Tajawal', sans-serif; }
+        .btn-cart:hover { background:#ffe8f0; }
+        .empty { text-align:center; padding:60px; color:#b5836d; }
+        .back-link { display:inline-block; margin-top:20px; color:#8d5a6b; text-decoration:none; }
+
+        /* منع أيقونات البطاقات من الظهور في غير موضعها */
+        .nav-menu .discount-badge, .top-promo .discount-badge, .header-main .discount-badge,
+        .nav-menu .fav-icon, .top-promo .fav-icon, .header-main .fav-icon { display: none !important; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>❤️ المفضلة</h2>
+    <div class="product-grid" id="favGrid"></div>
+    <div style="text-align:center; margin-top:20px;">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للتسوق</a>
+    </div>
+</div>
+
+<script src="products.js"></script>
+<script>
+    async function renderFavorites() {
+        const favs = getFavorites();
+        const products = await loadProducts();
+        const favProducts = products.filter(p => favs.includes(p.id));
+        const grid = document.getElementById('favGrid');
+
+        if (favProducts.length === 0) {
+            grid.innerHTML = `<div class="empty"><i class="far fa-heart" style="font-size:4rem; opacity:0.3;"></i><p>لم تضيفي منتجات للمفضلة بعد.</p></div>`;
+            return;
+        }
+
+        grid.innerHTML = favProducts.map(product => {
+            const discountBadge = product.discount ? `<span class="discount-badge">${product.discount}</span>` : '';
+            const oldPriceHtml = product.oldPrice ? `<span class="old-price">${product.oldPrice} شيكل</span>` : '';
+            const imageUrl = getImageUrl(product.image);
+            return `
+                <div class="product-card">
+                    ${discountBadge}
+                    <i class="fas fa-heart fav-icon" data-product-id="${product.id}" onclick="toggleFavorite(${product.id})" style="position:absolute; top:14px; left:14px; z-index:3; cursor:pointer; color:#e87d9a; background:rgba(255,255,255,0.8); padding:6px; border-radius:50%;"></i>
+                    <a href="product.html?id=${product.id}"><div class="product-img" style="background-image:url('${imageUrl}')"></div></a>
+                    <div class="product-info">
+                        <div class="product-title">${product.name}</div>
+                        <div class="price-wrapper">
+                            <span class="current-price">${product.price} شيكل</span>
+                            ${oldPriceHtml}
+                        </div>
+                        <button class="btn-cart" onclick="addToCart(${product.id})"><i class="fas fa-cart-plus"></i> أضف للعربة</button>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderFavorites);
+</script>
+</body>
+</html>

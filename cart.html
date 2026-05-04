@@ -64,19 +64,34 @@
         const products = await loadProducts();
         const cartContainer = document.getElementById('cartItems');
         const summaryContainer = document.getElementById('cartSummary');
+
         if (cart.length === 0) {
             cartContainer.innerHTML = `<div class="empty-cart"><i class="fas fa-shopping-cart"></i><h3>العربة فارغة</h3><p>لم تقومي بإضافة منتجات بعد</p><a href="index.html">تصفحي المنتجات</a></div>`;
             summaryContainer.innerHTML = '';
             return;
         }
+
         let cartHTML = '';
         cart.forEach(item => {
             const prod = products.find(p => p.id === item.productId);
             if (!prod) return;
             const imgUrl = getImageUrl(prod.image);
-            cartHTML += `<div class="cart-item"><div class="cart-item-img" style="background-image: url('${imgUrl}');"></div><div class="cart-item-info"><h4>${prod.name}</h4><p>${prod.price} شيكل</p><div class="quantity-control"><button onclick="changeQty(${item.productId}, -1)">−</button><span>${item.quantity}</span><button onclick="changeQty(${item.productId}, 1)">+</button></div></div><button class="remove-btn" onclick="removeItem(${item.productId})"><i class="fas fa-trash-alt"></i></button></div>`;
+            cartHTML += `<div class="cart-item">
+                <div class="cart-item-img" style="background-image: url('${imgUrl}');"></div>
+                <div class="cart-item-info">
+                    <h4>${prod.name}</h4>
+                    <p>${prod.price} شيكل</p>
+                    <div class="quantity-control">
+                        <button onclick="changeQty(${item.productId}, -1)">−</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="changeQty(${item.productId}, 1)">+</button>
+                    </div>
+                </div>
+                <button class="remove-btn" onclick="removeItem(${item.productId})"><i class="fas fa-trash-alt"></i></button>
+            </div>`;
         });
         cartContainer.innerHTML = cartHTML;
+
         const productsTotal = await getCartTotal();
         summaryContainer.innerHTML = `
             <div class="customer-info">
@@ -107,18 +122,24 @@
         }
     }
 
-    function removeItem(productId) { removeFromCart(productId); renderCart(); }
+    function removeItem(productId) {
+        removeFromCart(productId);
+        renderCart();
+    }
 
     async function sendOrder() {
         const cart = getCart();
         const products = await loadProducts();
         if (cart.length === 0) return alert('العربة فارغة!');
+
         const custName = document.getElementById('customerName')?.value.trim() || 'لم يُذكر';
         const custPhone = document.getElementById('customerPhone')?.value.trim() || 'لم يُذكر';
         const custRegion = document.getElementById('customerRegion')?.value || 'لم يحدد';
 
         const deliveryFee = deliveryFees[custRegion] || 0;
         const productsTotal = await getCartTotal();
+
+        // نصف ثمن المنتجات + رسوم التوصيل يدفع مقدمًا
         const advancePayment = Math.ceil(productsTotal / 2) + deliveryFee;
         const remainingPayment = productsTotal - Math.ceil(productsTotal / 2);
 
@@ -139,7 +160,7 @@
         message += `📍 يرجى تأكيد الطلب والمقاسات.\n`;
         message += `⚠️ سياسة الإرجاع: يمكن استرداد المنتج في نفس اليوم بشرط بقائه بحالته الأصلية.`;
 
-        const waNumber = '972592288505'; // ← تم التحديث
+        const waNumber = '972592288505';
         window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
         clearCart();
         renderCart();

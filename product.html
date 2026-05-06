@@ -29,7 +29,7 @@
         .rating { color:#e87d9a; margin-bottom:10px; }
         .price-large { font-size:2.2rem; font-weight:700; color:#9c3b5a; margin:20px 0; }
         .old-price-large { color:#b5838c; text-decoration:line-through; margin-right:15px; }
-        .btn-add { background:#e87d9a; color:white; padding:16px; border-radius:40px; text-align:center; font-weight:700; width:100%; text-decoration:none; display:block; margin:20px 0; border:none; cursor:pointer; font-family:'Tajawal'; font-size:1.1rem; transition:0.3s; }
+        .btn-add { background:#e87d9a; color:white; padding:16px; border-radius:40px; text-align:center; font-weight:700; width:100%; display:block; margin:20px 0; border:none; cursor:pointer; font-family:'Tajawal'; font-size:1.1rem; transition:0.3s; }
         .btn-add:hover { background:#c45173; }
         .btn-wa-large { background:#25d366; color:white; padding:16px; border-radius:40px; text-align:center; font-weight:700; width:100%; text-decoration:none; display:block; transition:0.3s; }
         .btn-wa-large:hover { background:#1da15b; }
@@ -109,12 +109,10 @@
     async function loadAndDisplay() {
         const products = await loadProducts();
         const product = products.find(p => p.id === productId);
-
         if (!product) {
             document.body.innerHTML = '<div style="text-align:center; padding:50px;"><h1 style="color:#9c3b5a;">المنتج غير موجود</h1><a href="index.html" style="color:#e87d9a;">العودة للرئيسية</a></div>';
             return;
         }
-
         const mainImg = getImageUrl(product.image);
         document.getElementById('mainImage').style.backgroundImage = `url('${mainImg}')`;
         document.getElementById('productName').textContent = product.name;
@@ -124,16 +122,10 @@
         document.title = product.name + ' • دانتيل';
 
         document.getElementById('currentPrice').textContent = product.price + ' شيكل';
-        if (product.oldPrice) {
-            document.getElementById('oldPrice').textContent = product.oldPrice + ' شيكل';
-        } else {
-            document.getElementById('oldPrice').style.display = 'none';
-        }
-        if (product.discount) {
-            document.getElementById('discountText').textContent = '🎯 ' + product.discount;
-        } else {
-            document.getElementById('discountText').style.display = 'none';
-        }
+        if (product.oldPrice) document.getElementById('oldPrice').textContent = product.oldPrice + ' شيكل';
+        else document.getElementById('oldPrice').style.display = 'none';
+        if (product.discount) document.getElementById('discountText').textContent = '🎯 ' + product.discount;
+        else document.getElementById('discountText').style.display = 'none';
 
         const stars = '★'.repeat(Math.floor(product.rating || 0)) + '☆'.repeat(5 - Math.floor(product.rating || 0));
         document.getElementById('productRating').innerHTML = `${stars} (${product.reviews || 0} تقييم)`;
@@ -141,25 +133,14 @@
         const waMsg = encodeURIComponent(`مرحباً، أريد شراء: ${product.name}`);
         document.getElementById('btnWa').href = `https://wa.me/${product.whatsapp}?text=${waMsg}`;
         document.getElementById('addToCartBtn').onclick = function() { addToCart(product.id); };
-
-        // عرض الوصف الحقيقي
         document.getElementById('productDescription').textContent = product.description || `${product.name} - قطعة عالية الجودة من دانتيل، ناعمة ومريحة.`;
 
         const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
         const relatedGrid = document.getElementById('relatedProducts');
-        if (related.length > 0) {
-            relatedGrid.innerHTML = related.map(p => `
-                <a href="product.html?id=${p.id}" style="text-decoration:none; color:inherit;">
-                    <div class="related-card">
-                        <img src="${getImageUrl(p.image)}" alt="${p.name}">
-                        <p>${p.name}</p>
-                        <p class="price">${p.price} شيكل</p>
-                    </div>
-                </a>
-            `).join('');
-        } else {
-            relatedGrid.innerHTML = '<p style="color:#b5836d;">لا توجد منتجات مشابهة حالياً.</p>';
-        }
+        relatedGrid.innerHTML = related.length > 0 ? related.map(p => `
+            <a href="product.html?id=${p.id}" style="text-decoration:none; color:inherit;">
+                <div class="related-card"><img src="${getImageUrl(p.image)}" alt="${p.name}"><p>${p.name}</p><p class="price">${p.price} شيكل</p></div>
+            </a>`).join('') : '<p style="color:#b5836d;">لا توجد منتجات مشابهة حالياً.</p>';
     }
 
     document.addEventListener('DOMContentLoaded', loadAndDisplay);

@@ -24,9 +24,6 @@
         .remove-btn { background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1.2rem; margin-right: 10px; }
         .cart-summary { margin-top: 20px; padding-top: 20px; border-top: 2px solid #ffcfde; }
         .total-price { font-size: 1.6rem; font-weight: bold; color: #9c3b5a; margin-bottom: 15px; }
-        .customer-info { background: rgba(255,255,255,0.9); border-radius: 24px; padding: 20px; margin: 15px 0; border: 1px solid #ffcfde; }
-        .customer-info h4 { color: #9c3b5a; margin-bottom: 15px; }
-        .customer-info input { width: 100%; padding: 12px 16px; border: 1.5px solid #f4c0d3; border-radius: 25px; font-family: 'Tajawal'; margin-bottom: 10px; background: white; }
         .send-order-btn { display: block; width: 100%; background: #25d366; color: white; border: none; padding: 16px; border-radius: 40px; font-size: 1.2rem; font-weight: 700; font-family: 'Tajawal'; cursor: pointer; transition: 0.3s; }
         .send-order-btn:hover { background: #1da15b; }
         .whatsapp-note { margin-top: 15px; background: #fff9e6; border: 1px solid #ffe0a3; border-radius: 20px; padding: 15px 20px; color: #8d6e63; font-size: 0.9rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; }
@@ -58,91 +55,46 @@
         const products = await loadProducts();
         const cartContainer = document.getElementById('cartItems');
         const summaryContainer = document.getElementById('cartSummary');
-
         if (cart.length === 0) {
             cartContainer.innerHTML = `<div class="empty-cart"><i class="fas fa-shopping-cart"></i><h3>العربة فارغة</h3><p>لم تقومي بإضافة منتجات بعد</p><a href="index.html">تصفحي المنتجات</a></div>`;
             summaryContainer.innerHTML = '';
             return;
         }
-
         let cartHTML = '';
         cart.forEach(item => {
             const prod = products.find(p => p.id === item.productId);
             if (!prod) return;
             const imgUrl = getImageUrl(prod.image);
-            cartHTML += `<div class="cart-item">
-                <div class="cart-item-img" style="background-image: url('${imgUrl}');"></div>
-                <div class="cart-item-info">
-                    <h4>${prod.name}</h4>
-                    <p>${prod.price} شيكل</p>
-                    <div class="quantity-control">
-                        <button onclick="changeQty(${item.productId}, -1)">−</button>
-                        <span>${item.quantity}</span>
-                        <button onclick="changeQty(${item.productId}, 1)">+</button>
-                    </div>
-                </div>
-                <button class="remove-btn" onclick="removeItem(${item.productId})"><i class="fas fa-trash-alt"></i></button>
-            </div>`;
+            cartHTML += `<div class="cart-item"><div class="cart-item-img" style="background-image: url('${imgUrl}');"></div><div class="cart-item-info"><h4>${prod.name}</h4><p>${prod.price} شيكل</p><div class="quantity-control"><button onclick="changeQty(${item.productId}, -1)">−</button><span>${item.quantity}</span><button onclick="changeQty(${item.productId}, 1)">+</button></div></div><button class="remove-btn" onclick="removeItem(${item.productId})"><i class="fas fa-trash-alt"></i></button></div>`;
         });
         cartContainer.innerHTML = cartHTML;
-
-        const productsTotal = await getCartTotal();
+        const total = await getCartTotal();
         summaryContainer.innerHTML = `
-            <div class="customer-info">
-                <h4>معلوماتكِ</h4>
-                <input type="text" id="customerName" placeholder="الاسم الكامل">
-                <input type="tel" id="customerPhone" placeholder="رقم الهاتف">
-            </div>
-            <div class="total-price">الإجمالي: ${productsTotal} شيكل</div>
+            <div class="total-price">إجمالي المنتجات: ${total} شيكل</div>
             <button class="send-order-btn" onclick="sendOrder()"><i class="fab fa-whatsapp"></i> إرسال الطلب عبر واتساب</button>
-            <div class="whatsapp-note"><i class="fas fa-info-circle"></i><span>بعد الضغط على الزر، سيتم فتح واتساب. <strong>اضغطي على زر الإرسال</strong> لتأكيد الطلب.</span></div>`;
+            <div class="whatsapp-note"><i class="fas fa-info-circle"></i><span>بعد الضغط على الزر، سيتم فتح واتساب. <strong>اضغطي على زر الإرسال</strong> لتأكيد طلبك.</span></div>`;
     }
-
     function changeQty(productId, delta) {
         let cart = getCart();
         const item = cart.find(i => i.productId === productId);
-        if (item) {
-            item.quantity += delta;
-            if (item.quantity <= 0) cart = cart.filter(i => i.productId !== productId);
-            saveCart(cart);
-            updateCartCount();
-            renderCart();
-        }
+        if (item) { item.quantity += delta; if (item.quantity <= 0) cart = cart.filter(i => i.productId !== productId); saveCart(cart); updateCartCount(); renderCart(); }
     }
-
-    function removeItem(productId) {
-        removeFromCart(productId);
-        renderCart();
-    }
-
+    function removeItem(productId) { removeFromCart(productId); renderCart(); }
     async function sendOrder() {
         const cart = getCart();
         const products = await loadProducts();
         if (cart.length === 0) return alert('العربة فارغة!');
-
-        const custName = document.getElementById('customerName')?.value.trim() || 'لم يُذكر';
-        const custPhone = document.getElementById('customerPhone')?.value.trim() || 'لم يُذكر';
-        const productsTotal = await getCartTotal();
-
         let message = '🛒 *طلب جديد من دانتيل*\n\n';
-        message += `👤 الاسم: ${custName}\n📞 الهاتف: ${custPhone}\n\n`;
-        message += `📦 *المنتجات المطلوبة:*\n`;
         cart.forEach(item => {
             const prod = products.find(p => p.id === item.productId);
-            if (prod) {
-                const imgUrl = getImageUrl(prod.image);
-                message += `✅ ${prod.name} (${item.quantity} قطعة) – ${prod.price * item.quantity} شيكل\n📷 الصورة: ${imgUrl}\n`;
-            }
+            if (prod) message += `✅ ${prod.name} (${item.quantity} قطعة) – ${prod.price * item.quantity} شيكل\n📷 الصورة: ${getImageUrl(prod.image)}\n\n`;
         });
-        message += `\n💰 *الإجمالي: ${productsTotal} شيكل*\n`;
-        message += `📍 يرجى تأكيد الطلب والمقاسات.`;
-
-        const waNumber = '972592288505';
-        window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        const total = await getCartTotal();
+        message += `💰 *الإجمالي: ${total} شيكل*`;
+        window.open(`https://wa.me/972592288505?text=${encodeURIComponent(message)}`, '_blank');
         clearCart();
         renderCart();
     }
-
     document.addEventListener('DOMContentLoaded', renderCart);
 </script>
 </body>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دانتيل • لمسة أنوثة</title>
+    <!-- خطوط -->
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -101,24 +102,13 @@
             box-shadow: 0 8px 20px rgba(200, 120, 150, 0.1);
             transition: box-shadow 0.3s;
         }
-        .search-box:hover {
-            box-shadow: 0 0 25px rgba(232, 125, 154, 0.4);
-        }
-        .search-box input {
-            flex: 1; padding: 12px 20px; border: none; outline: none;
-            background: transparent;
-        }
-        .search-box button {
-            background: transparent; border: none; padding: 0 20px;
-            cursor: pointer; color: #c45173; border-right: 1px solid #f4c0d3;
-        }
+        .search-box:hover { box-shadow: 0 0 25px rgba(232, 125, 154, 0.4); }
+        .search-box input { flex: 1; padding: 12px 20px; border: none; outline: none; background: transparent; }
+        .search-box button { background: transparent; border: none; padding: 0 20px; cursor: pointer; color: #c45173; border-right: 1px solid #f4c0d3; }
         .header-icons { display: flex; gap: 22px; font-size: 1.4rem; color: #9c3b5a; }
         .header-icons a { color: #9c3b5a; text-decoration: none; position: relative; transition: color 0.3s; }
         .header-icons a:hover { color: #c45173; }
-        .header-icons a:hover .fa-heart {
-            animation: pulse 0.6s infinite;
-            color: #e87d9a;
-        }
+        .header-icons a:hover .fa-heart { animation: pulse 0.6s infinite; color: #e87d9a; }
         .cart-count {
             position: absolute; top: -8px; left: -10px;
             background: #e87d9a; color: white;
@@ -131,8 +121,7 @@
             margin: 15px 25px 25px;
             border-bottom: 1px solid #ffcfde;
             padding-bottom: 10px;
-            overflow-x: auto;
-            white-space: nowrap;
+            overflow-x: auto; white-space: nowrap;
             animation: fadeInUp 0.8s ease-out 0.4s both;
         }
         .nav-menu ul { display: flex; list-style: none; gap: 28px; }
@@ -144,98 +133,71 @@
         }
         .nav-menu li a:hover, .nav-menu li.active a {
             border-bottom-color: #e87d9a; color: #9c3b5a; font-weight: 700;
-            transform: translateY(-2px);
-            display: inline-block;
+            transform: translateY(-2px); display: inline-block;
         }
 
-        /* ========== بانر متعدد الصور ========== */
+        /* ========== بانر متعدد الصور (طبقتين) ========== */
         .hero-banner {
-            width: 100%;
-            height: 500px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-            transition: background-image 1.5s ease-in-out;
+            width: 100%; height: 500px;
+            position: relative; display: flex;
+            align-items: center; justify-content: center;
+            margin-bottom: 30px; overflow: hidden;
             animation: fadeInUp 0.8s ease-out 0.6s both;
         }
+        .banner-layer {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0; transition: opacity 0.8s ease-in-out;
+        }
+        .banner-layer.active { opacity: 1; }
         .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
             background: linear-gradient(135deg, rgba(156, 59, 90, 0.2) 0%, rgba(232, 125, 154, 0.15) 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 20px; z-index: 2;
         }
         .hero-overlay h2 {
-            font-family: 'El Messiri', serif;
-            font-size: 3.5rem;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            margin-bottom: 15px;
-            animation: float 4s ease-in-out infinite;
+            font-family: 'El Messiri', serif; font-size: 3.5rem;
+            color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            margin-bottom: 15px; animation: float 4s ease-in-out infinite;
         }
         .hero-overlay p {
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.4rem;
-            color: white;
-            margin-bottom: 25px;
-            max-width: 600px;
+            font-family: 'Cairo', sans-serif; font-size: 1.4rem;
+            color: white; margin-bottom: 25px; max-width: 600px;
             text-shadow: 0 1px 5px rgba(0,0,0,0.2);
             animation: fadeInUp 0.8s ease-out 0.8s both;
         }
         .hero-btn {
-            background: white;
-            color: #9c3b5a;
-            padding: 14px 36px;
-            border-radius: 40px;
-            text-decoration: none;
-            font-weight: 700;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.3s;
+            background: white; color: #9c3b5a;
+            padding: 14px 36px; border-radius: 40px;
+            text-decoration: none; font-weight: 700;
+            font-family: 'Tajawal', sans-serif; transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             animation: pulse 2s infinite;
         }
-        .hero-btn:hover {
-            background: #ffe8f0;
-            transform: translateY(-2px);
-            animation: none;
-        }
+        .hero-btn:hover { background: #ffe8f0; transform: translateY(-2px); animation: none; }
 
-        /* تحسين عرض المنتجات على الجوال: عمودين */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            margin: 20px 16px 35px;
+            gap: 15px; margin: 20px 16px 35px;
         }
         @media (min-width: 768px) {
             .product-grid {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-                gap: 25px;
-                margin: 20px 25px 35px;
+                gap: 25px; margin: 20px 25px 35px;
             }
         }
         .product-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 30px;
-            border: 1px solid #ffcfde;
-            position: relative;
-            transition: all 0.4s ease;
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.9); border-radius: 30px;
+            border: 1px solid #ffcfde; position: relative;
+            transition: all 0.4s ease; overflow: hidden;
             backdrop-filter: blur(5px);
             animation: fadeInUp 0.6s ease-out both;
-            animation-delay: calc(var(--card-index, 0) * 0.1s);
         }
         .product-card:nth-child(1) { --card-index: 1; }
         .product-card:nth-child(2) { --card-index: 2; }
@@ -245,69 +207,23 @@
         .product-card:nth-child(6) { --card-index: 6; }
         .product-card:nth-child(7) { --card-index: 7; }
         .product-card:nth-child(8) { --card-index: 8; }
-        .product-card:hover {
-            box-shadow: 0 20px 40px rgba(200, 120, 150, 0.15);
-            border-color: #e87d9a;
-            transform: translateY(-8px);
-        }
-        .discount-badge {
-            position: absolute; top: 14px; right: 14px;
-            background: #e87d9a; color: white; padding: 5px 14px;
-            border-radius: 25px; font-size: 0.8rem; font-weight: 700;
-            z-index: 2;
-            animation: softGlow 2s infinite;
-        }
-        .product-img {
-            width: 100%; aspect-ratio: 3/4;
-            background-size: cover; background-position: top;
-            border-radius: 25px 25px 0 0;
-            margin-bottom: 5px;
-            border-bottom: 1px solid #ffcfde;
-            transition: transform 0.3s;
-        }
-        .product-card:hover .product-img {
-            transform: scale(1.03);
-        }
+        .product-card:hover { box-shadow: 0 20px 40px rgba(200,120,150,0.15); border-color: #e87d9a; transform: translateY(-8px); }
+        .discount-badge { position: absolute; top: 14px; right: 14px; background: #e87d9a; color: white; padding: 5px 14px; border-radius: 25px; font-size: 0.8rem; font-weight: 700; animation: softGlow 2s infinite; }
+        .product-img { width: 100%; aspect-ratio: 3/4; background-size: cover; background-position: top; border-radius: 25px 25px 0 0; margin-bottom: 5px; border-bottom: 1px solid #ffcfde; transition: transform 0.3s; }
+        .product-card:hover .product-img { transform: scale(1.03); }
         .product-info { padding: 10px 15px 18px; }
-        .product-title {
-            font-weight: 600; font-size: 1rem; color: #4a2e38;
-            margin-bottom: 8px; height: 40px; overflow: hidden;
-        }
+        .product-title { font-weight: 600; font-size: 1rem; color: #4a2e38; margin-bottom: 8px; height: 40px; overflow: hidden; }
         .price-wrapper { display: flex; gap: 10px; margin: 10px 0 12px; }
         .current-price { font-weight: 700; font-size: 1.3rem; color: #9c3b5a; }
         .old-price { color: #b5838c; text-decoration: line-through; }
         .product-actions { display: flex; flex-direction: column; gap: 8px; }
-        .btn-cart {
-            background: white; color: #9c3b5a; border: 1.5px solid #e87d9a;
-            padding: 10px 0; border-radius: 30px; font-weight: 600;
-            cursor: pointer; transition: all 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-        }
+        .btn-cart { background: white; color: #9c3b5a; border: 1.5px solid #e87d9a; padding: 10px 0; border-radius: 30px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s; }
         .btn-cart:hover { background: #ffe8f0; transform: scale(1.02); }
-        .btn-wa {
-            background: #9c3b5a; color: white; padding: 10px 0; border-radius: 30px;
-            text-decoration: none; font-weight: 600; display: flex;
-            align-items: center; justify-content: center; gap: 5px;
-            transition: all 0.3s; border: 1px solid #9c3b5a;
-        }
+        .btn-wa { background: #9c3b5a; color: white; padding: 10px 0; border-radius: 30px; text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s; border: 1px solid #9c3b5a; }
         .btn-wa:hover { background: white; color: #9c3b5a; transform: scale(1.02); }
-        
-        /* منع أيقونات البطاقات من الظهور في الشريط العلوي */
-        .nav-menu .discount-badge, .top-promo .discount-badge, .header-main .discount-badge,
-        .nav-menu .fav-icon, .top-promo .fav-icon, .header-main .fav-icon { display: none !important; }
-        
-        .section-title {
-            font-family: 'El Messiri',serif;
-            margin: 15px 25px;
-            color: #9c3b5a;
-            animation: fadeInUp 0.8s ease-out 0.5s both;
-        }
-        .footer {
-            margin: 0 25px;
-            border-top: 1px solid #ffcfde;
-            padding-top: 20px;
-            color: #8d5a6b;
-        }
+
+        .section-title { font-family: 'El Messiri',serif; margin: 15px 25px; color: #9c3b5a; animation: fadeInUp 0.8s ease-out 0.5s both; }
+        .footer { margin: 0 25px; border-top: 1px solid #ffcfde; padding-top: 20px; color: #8d5a6b; }
         @media (max-width: 600px) {
             .hero-banner { height: 350px; }
             .hero-overlay h2 { font-size: 2.5rem; }
@@ -356,8 +272,10 @@
         </ul>
     </div>
 
-    <!-- ========== بانر متحرك بالصور الجديدة ========== -->
+    <!-- البانر الجديد -->
     <div class="hero-banner" id="heroBanner">
+        <div class="banner-layer active" id="layer1"></div>
+        <div class="banner-layer" id="layer2"></div>
         <div class="hero-overlay">
             <h2>دانتيل</h2>
             <p>اختاري نعومة ليلتكِ مع أجمل قمصان النوم والبيجامات والأرواب</p>
@@ -368,10 +286,10 @@
     <h2 class="section-title">✨ الأكثر طلباً</h2>
     <div class="product-grid"></div>
 
-    <!-- قسم الضمان – مُحدّث بالسياسات الجديدة -->
     <div class="safety" style="background: #fdfbf9; padding: 28px 25px; border-radius: 30px; margin: 40px 25px 20px; border: 1px solid #f5e8e4;">
         <h3 style="font-family: 'El Messiri', serif; font-size: 1.8rem; margin-bottom: 20px; color: #6d4c41;">🔐 تسوقي بثقة – ضماناتنا لكِ</h3>
         <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 20px 40px;">
+            <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> ادفعي نصف ثمن المنتج + رسوم التوصيل فقط، والنصف الآخر عند الاستلام.</li>
             <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> يمكنك استرداد المنتج في نفس اليوم إذا لم يعجبكِ، بشرط أن يكون بحالته الأصلية.</li>
             <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> رسوم التوصيل: الوسطى 15 شيكل • غزة 20 شيكل • الجنوب 25 شيكل.</li>
             <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> دعم واتساب فوري للاستفسارات والمقاسات.</li>
@@ -390,22 +308,39 @@
         renderProducts('.product-grid');
     });
 
-    // ========== صور البانر ==========
+    // ========== صور البانر (نظام الطبقتين السريع) ==========
     const bannerImages = [
-        "images/6.jpg",  // تم تصحيح المسار
+        "images/6.jpg",
         "images/10.jpg",
         "images/9.jpg",
         "images/11.jpg"
     ];
-    let currentBannerIndex = 0;
-    const bannerEl = document.getElementById('heroBanner');
+    const layer1 = document.getElementById('layer1');
+    const layer2 = document.getElementById('layer2');
+    let currentIndex = 0;
+    let activeLayer = 1;
 
-    bannerEl.style.backgroundImage = `url('${bannerImages[0]}')`;
+    layer1.style.backgroundImage = `url('${bannerImages[0]}')`;
+    layer1.classList.add('active');
 
-    setInterval(() => {
-        currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length;
-        bannerEl.style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
-    }, 4000);
+    function switchBanner() {
+        currentIndex = (currentIndex + 1) % bannerImages.length;
+        const nextImage = `url('${bannerImages[currentIndex]}')`;
+
+        if (activeLayer === 1) {
+            layer2.style.backgroundImage = nextImage;
+            layer1.classList.remove('active');
+            layer2.classList.add('active');
+            activeLayer = 2;
+        } else {
+            layer1.style.backgroundImage = nextImage;
+            layer2.classList.remove('active');
+            layer1.classList.add('active');
+            activeLayer = 1;
+        }
+    }
+
+    setInterval(switchBanner, 4000);
 </script>
 </body>
 </html>

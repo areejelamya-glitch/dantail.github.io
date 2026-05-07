@@ -4,103 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دانتيل • لمسة أنوثة</title>
-     <link rel="icon" type="image/png" href="images/dantail_icon_512x512.png">
-    <!-- خطوط -->
+    <link rel="icon" type="image/png" href="images/dantail_icon_512x512.png">
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes softGlow {
-            0% { box-shadow: 0 0 5px rgba(232, 125, 154, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(232, 125, 154, 0.6); }
-            100% { box-shadow: 0 0 5px rgba(232, 125, 154, 0.3); }
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        @keyframes softGlow { 0% { box-shadow: 0 0 5px rgba(232, 125, 154, 0.3); } 50% { box-shadow: 0 0 20px rgba(232, 125, 154, 0.6); } 100% { box-shadow: 0 0 5px rgba(232, 125, 154, 0.3); } }
         body {
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #fff5f9 0%, #fdf0f5 100%);
-            color: #4a2e38;
-            line-height: 1.6;
-            padding: 0 12px 20px;
-            min-height: 100vh;
+            color: #4a2e38; line-height: 1.6;
+            padding: 0 12px 20px; min-height: 100vh;
             animation: fadeInUp 0.8s ease-out;
         }
         .container {
-            max-width: 1300px;
-            margin: 0 auto;
+            max-width: 1300px; margin: 0 auto;
             background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 50px;
-            box-shadow: 0 25px 60px rgba(220, 150, 170, 0.15);
-            overflow: hidden;
-            padding: 0 0 30px;
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 50px; box-shadow: 0 25px 60px rgba(220, 150, 170, 0.15);
+            overflow: hidden; padding: 0 0 30px;
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
         .top-promo {
             background: linear-gradient(135deg, #ffe8f0, #ffd9e5);
-            color: #ad4b6e;
-            padding: 10px 20px;
-            font-size: 0.9rem;
+            color: #ad4b6e; padding: 10px 20px; font-size: 0.9rem;
             border-bottom: 1px solid #ffcfde;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
             animation: fadeInUp 0.8s ease-out;
         }
         .promo-left i { color: #d47a96; }
-        .promo-right a {
-            color: #ad4b6e;
-            text-decoration: none;
-            margin: 0 10px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
+        .promo-right a { color: #ad4b6e; text-decoration: none; margin: 0 10px; font-weight: 500; transition: color 0.3s; }
         .promo-right a:hover { color: #7d2e48; }
         .header-main {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 25px 10px;
-            flex-wrap: wrap;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 25px 10px; flex-wrap: wrap;
             animation: fadeInUp 0.8s ease-out 0.2s both;
         }
         .logo h1 {
-            font-family: 'El Messiri', serif;
-            font-size: 2.8rem;
-            font-weight: 600;
+            font-family: 'El Messiri', serif; font-size: 2.8rem; font-weight: 600;
             background: linear-gradient(to right, #c45173, #9c3b5a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-            animation: pulse 3s infinite;
-        }
-        .logo span {
-            color: #c45173;
-            font-size: 1rem;
-            margin-right: 5px;
-            font-family: 'Cairo', sans-serif;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; letter-spacing: -0.5px; animation: pulse 3s infinite;
         }
         .search-box {
             flex: 0 1 380px; min-width: 250px;
             display: flex; border: 1.5px solid #f4c0d3; border-radius: 40px; overflow: hidden;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 8px 20px rgba(200, 120, 150, 0.1);
+            background: rgba(255, 255, 255, 0.9); box-shadow: 0 8px 20px rgba(200, 120, 150, 0.1);
             transition: box-shadow 0.3s;
         }
         .search-box:hover { box-shadow: 0 0 25px rgba(232, 125, 154, 0.4); }
@@ -119,10 +71,8 @@
             animation: softGlow 2s infinite;
         }
         .nav-menu {
-            margin: 15px 25px 25px;
-            border-bottom: 1px solid #ffcfde;
-            padding-bottom: 10px;
-            overflow-x: auto; white-space: nowrap;
+            margin: 15px 25px 25px; border-bottom: 1px solid #ffcfde;
+            padding-bottom: 10px; overflow-x: auto; white-space: nowrap;
             animation: fadeInUp 0.8s ease-out 0.4s both;
         }
         .nav-menu ul { display: flex; list-style: none; gap: 28px; }
@@ -137,55 +87,53 @@
             transform: translateY(-2px); display: inline-block;
         }
 
-        /* ========== بانر متعدد الصور (طبقتين) ========== */
+        /* البانر */
         .hero-banner {
-            width: 100%; height: 500px;
-            position: relative; display: flex;
-            align-items: center; justify-content: center;
+            width: 100%; height: 500px; position: relative;
+            display: flex; align-items: center; justify-content: center;
             margin-bottom: 30px; overflow: hidden;
             animation: fadeInUp 0.8s ease-out 0.6s both;
         }
         .banner-layer {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            background-repeat: no-repeat;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
             opacity: 0; transition: opacity 0.8s ease-in-out;
         }
         .banner-layer.active { opacity: 1; }
         .hero-overlay {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, rgba(156, 59, 90, 0.2) 0%, rgba(232, 125, 154, 0.15) 100%);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; padding: 20px; z-index: 2;
         }
         .hero-overlay h2 {
-            font-family: 'El Messiri', serif; font-size: 3.5rem;
-            color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            margin-bottom: 15px; animation: float 4s ease-in-out infinite;
+            font-family: 'El Messiri', serif; font-size: 3.5rem; color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2); margin-bottom: 15px;
+            animation: float 4s ease-in-out infinite;
         }
         .hero-overlay p {
-            font-family: 'Cairo', sans-serif; font-size: 1.4rem;
-            color: white; margin-bottom: 25px; max-width: 600px;
-            text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            font-family: 'Cairo', sans-serif; font-size: 1.4rem; color: white;
+            margin-bottom: 25px; max-width: 600px; text-shadow: 0 1px 5px rgba(0,0,0,0.2);
             animation: fadeInUp 0.8s ease-out 0.8s both;
         }
         .hero-btn {
-            background: white; color: #9c3b5a;
-            padding: 14px 36px; border-radius: 40px;
-            text-decoration: none; font-weight: 700;
-            font-family: 'Tajawal', sans-serif; transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            animation: pulse 2s infinite;
+            background: white; color: #9c3b5a; padding: 14px 36px; border-radius: 40px;
+            text-decoration: none; font-weight: 700; font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); animation: pulse 2s infinite;
         }
         .hero-btn:hover { background: #ffe8f0; transform: translateY(-2px); animation: none; }
 
+        /* شبكة المنتجات - النسخة المحسنة */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px; margin: 20px 16px 35px;
+            grid-template-columns: repeat(2, 1fr); /* عمودين على الجوال */
+            gap: 10px; margin: 15px 10px 25px;
+        }
+        @media (min-width: 480px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 15px; margin: 20px 15px 30px;
+            }
         }
         @media (min-width: 768px) {
             .product-grid {
@@ -193,95 +141,74 @@
                 gap: 25px; margin: 20px 25px 35px;
             }
         }
+
         .product-card {
-            background: rgba(255, 255, 255, 0.9); border-radius: 30px;
+            background: rgba(255, 255, 255, 0.9); border-radius: 20px;
             border: 1px solid #ffcfde; position: relative;
             transition: all 0.4s ease; overflow: hidden;
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 0.6s ease-out both;
+            backdrop-filter: blur(5px); animation: fadeInUp 0.6s ease-out both;
         }
-        .product-card:nth-child(1) { --card-index: 1; }
-        .product-card:nth-child(2) { --card-index: 2; }
-        .product-card:nth-child(3) { --card-index: 3; }
-        .product-card:nth-child(4) { --card-index: 4; }
-        .product-card:nth-child(5) { --card-index: 5; }
-        .product-card:nth-child(6) { --card-index: 6; }
-        .product-card:nth-child(7) { --card-index: 7; }
-        .product-card:nth-child(8) { --card-index: 8; }
-        .product-card:hover { box-shadow: 0 20px 40px rgba(200,120,150,0.15); border-color: #e87d9a; transform: translateY(-8px); }
-        .discount-badge { position: absolute; top: 14px; right: 14px; background: #e87d9a; color: white; padding: 5px 14px; border-radius: 25px; font-size: 0.8rem; font-weight: 700; animation: softGlow 2s infinite; }
-        .product-img { width: 100%; aspect-ratio: 3/4; background-size: cover; background-position: top; border-radius: 25px 25px 0 0; margin-bottom: 5px; border-bottom: 1px solid #ffcfde; transition: transform 0.3s; }
+        .product-card:nth-child(1) { --card-index: 1; } .product-card:nth-child(2) { --card-index: 2; }
+        .product-card:nth-child(3) { --card-index: 3; } .product-card:nth-child(4) { --card-index: 4; }
+        .product-card:nth-child(5) { --card-index: 5; } .product-card:nth-child(6) { --card-index: 6; }
+        .product-card:nth-child(7) { --card-index: 7; } .product-card:nth-child(8) { --card-index: 8; }
+        .product-card:hover { box-shadow: 0 20px 40px rgba(200,120,150,0.15); border-color: #e87d9a; transform: translateY(-5px); }
+        .discount-badge { position: absolute; top: 10px; right: 10px; background: #e87d9a; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; z-index: 2; animation: softGlow 2s infinite; }
+        .product-img { width: 100%; aspect-ratio: 3/4; background-size: cover; background-position: top; border-radius: 15px 15px 0 0; margin-bottom: 5px; border-bottom: 1px solid #ffcfde; transition: transform 0.3s; }
         .product-card:hover .product-img { transform: scale(1.03); }
-        .product-info { padding: 10px 15px 18px; }
-        .product-title { font-weight: 600; font-size: 1rem; color: #4a2e38; margin-bottom: 8px; height: 40px; overflow: hidden; }
-        .price-wrapper { display: flex; gap: 10px; margin: 10px 0 12px; }
-        .current-price { font-weight: 700; font-size: 1.3rem; color: #9c3b5a; }
-        .old-price { color: #b5838c; text-decoration: line-through; }
-        .product-actions { display: flex; flex-direction: column; gap: 8px; }
-        .btn-cart { background: white; color: #9c3b5a; border: 1.5px solid #e87d9a; padding: 10px 0; border-radius: 30px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s; }
+        .product-info { padding: 8px 10px 14px; }
+        .product-title { font-weight: 600; font-size: 0.85rem; color: #4a2e38; margin-bottom: 6px; height: 35px; overflow: hidden; }
+        .price-wrapper { display: flex; gap: 6px; margin: 6px 0 10px; align-items: center; }
+        .current-price { font-weight: 700; font-size: 1rem; color: #9c3b5a; }
+        .old-price { color: #b5838c; text-decoration: line-through; font-size: 0.8rem; }
+        .product-actions { display: flex; flex-direction: column; gap: 6px; }
+        .btn-cart { background: white; color: #9c3b5a; border: 1.5px solid #e87d9a; padding: 8px 0; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s; }
         .btn-cart:hover { background: #ffe8f0; transform: scale(1.02); }
-        .btn-wa { background: #9c3b5a; color: white; padding: 10px 0; border-radius: 30px; text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s; border: 1px solid #9c3b5a; }
+        .btn-wa { background: #9c3b5a; color: white; padding: 8px 0; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s; border: 1px solid #9c3b5a; }
         .btn-wa:hover { background: white; color: #9c3b5a; transform: scale(1.02); }
+        .fav-icon { top: 10px; left: 10px; font-size: 1rem; }
+
+        @media (min-width: 768px) {
+            .product-card { border-radius: 30px; }
+            .product-img { border-radius: 25px 25px 0 0; }
+            .product-info { padding: 10px 15px 18px; }
+            .product-title { font-size: 1rem; height: 40px; }
+            .current-price { font-size: 1.3rem; }
+            .btn-cart, .btn-wa { padding: 10px 0; font-size: 0.9rem; border-radius: 30px; }
+            .discount-badge { top: 14px; right: 14px; padding: 5px 14px; font-size: 0.8rem; }
+            .fav-icon { top: 14px; left: 14px; font-size: 1.2rem; }
+        }
 
         .section-title { font-family: 'El Messiri',serif; margin: 15px 25px; color: #9c3b5a; animation: fadeInUp 0.8s ease-out 0.5s both; }
         .footer { margin: 0 25px; border-top: 1px solid #ffcfde; padding-top: 20px; color: #8d5a6b; }
-        @media (max-width: 600px) {
-            .hero-banner { height: 350px; }
-            .hero-overlay h2 { font-size: 2.5rem; }
-            .hero-overlay p { font-size: 1.1rem; }
-        }
+        @media (max-width: 600px) { .hero-banner { height: 350px; } .hero-overlay h2 { font-size: 2.5rem; } .hero-overlay p { font-size: 1.1rem; } }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="top-promo">
-        <div class="promo-left">
-            <span><i class="fas fa-truck"></i>التوصيل مجاني عند الطلب ب500 شيكل فما فوق</span>
-        </div>
-        <div class="promo-right">
-            <a href="#">من نحن</a>
-            <a href="#">اتصل بنا</a>
-            <a href="faq.html">مساعدة</a>
-        </div>
+        <div class="promo-left"><span><i class="fas fa-truck"></i>التوصيل مجاني عند الطلب ب500 شيكل فما فوق</span></div>
+        <div class="promo-right"><a href="#">من نحن</a><a href="#">اتصل بنا</a><a href="faq.html">مساعدة</a></div>
     </div>
-
     <div class="header-main">
-        <div class="logo">
-            <h1>دانتيل</h1>
-            <div style="font-size:0.85rem; color:#b2536e;">ليلتكِ أجمل معنا</div>
-        </div>
-        <form class="search-box" action="shop.html" method="get">
-            <input type="text" name="search" placeholder="ابحثي عن قميص نومكِ...">
-            <button type="submit"><i class="fas fa-search"></i></button>
-        </form>
+        <div class="logo"><h1>دانتيل</h1><div style="font-size:0.85rem; color:#b2536e;">ليلتكِ أجمل معنا</div></div>
+        <form class="search-box" action="shop.html" method="get"><input type="text" name="search" placeholder="ابحثي عن قميص نومكِ..."><button type="submit"><i class="fas fa-search"></i></button></form>
         <div class="header-icons">
             <a href="favorites.html"><i class="far fa-heart"></i></a>
-            <a href="cart.html" style="position:relative;">
-                <i class="fas fa-shopping-bag"></i>
-                <span class="cart-count">0</span>
-            </a>
+            <a href="cart.html" style="position:relative;"><i class="fas fa-shopping-bag"></i><span class="cart-count">0</span></a>
         </div>
     </div>
-
     <div class="nav-menu">
         <ul>
-            <li class="active"><a href="index.html">الرئيسية</a></li>
-            <li><a href="shop.html">المتجر</a></li>
-            <li><a href="shop.html?category=قمصان%20نوم">قمصان نوم</a></li>
-            <li><a href="shop.html?category=بيجامات">بيجامات</a></li>
-            <li><a href="shop.html?category=أرواب">أرواب</a></li>
+            <li class="active"><a href="index.html">الرئيسية</a></li><li><a href="shop.html">المتجر</a></li>
+            <li><a href="shop.html?category=قمصان%20نوم">قمصان نوم</a></li><li><a href="shop.html?category=بيجامات">بيجامات</a></li><li><a href="shop.html?category=أرواب">أرواب</a></li>
         </ul>
     </div>
 
-    <!-- البانر الجديد -->
     <div class="hero-banner" id="heroBanner">
         <div class="banner-layer active" id="layer1"></div>
         <div class="banner-layer" id="layer2"></div>
-        <div class="hero-overlay">
-            <h2>دانتيل</h2>
-            <p>اختاري نعومة ليلتكِ مع أجمل قمصان النوم والبيجامات والأرواب</p>
-            <a href="shop.html" class="hero-btn">تسوقي الآن</a>
-        </div>
+        <div class="hero-overlay"><h2>دانتيل</h2><p>اختاري نعومة ليلتكِ مع أجمل قمصان النوم والبيجامات والأرواب</p><a href="shop.html" class="hero-btn">تسوقي الآن</a></div>
     </div>
 
     <h2 class="section-title">✨ الأكثر طلباً</h2>
@@ -297,50 +224,29 @@
         </ul>
     </div>
 
-    <div class="footer">
-        <div>© ٢٠٢٥ دانتيل • جميع الحقوق محفوظة</div>
-        <div><a href="faq.html" style="color:#8d5a6b;">مساعدة</a></div>
-    </div>
+    <div class="footer"><div>© ٢٠٢٥ دانتيل • جميع الحقوق محفوظة</div><div><a href="faq.html" style="color:#8d5a6b;">مساعدة</a></div></div>
 </div>
 
 <script src="products.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        renderProducts('.product-grid');
-    });
-
-    // ========== صور البانر (نظام الطبقتين السريع) ==========
-    const bannerImages = [
-        "images/6.jpg",
-        "images/10.jpg",
-        "images/9.jpg",
-        "images/11.jpg"
-    ];
+    document.addEventListener('DOMContentLoaded', () => { renderProducts('.product-grid'); });
+    const bannerImages = ["images/6.jpg","images/10.jpg","images/9.jpg","images/11.jpg"];
     const layer1 = document.getElementById('layer1');
     const layer2 = document.getElementById('layer2');
-    let currentIndex = 0;
-    let activeLayer = 1;
-
+    let currentIndex = 0, activeLayer = 1;
     layer1.style.backgroundImage = `url('${bannerImages[0]}')`;
     layer1.classList.add('active');
-
     function switchBanner() {
         currentIndex = (currentIndex + 1) % bannerImages.length;
         const nextImage = `url('${bannerImages[currentIndex]}')`;
-
         if (activeLayer === 1) {
             layer2.style.backgroundImage = nextImage;
-            layer1.classList.remove('active');
-            layer2.classList.add('active');
-            activeLayer = 2;
+            layer1.classList.remove('active'); layer2.classList.add('active'); activeLayer = 2;
         } else {
             layer1.style.backgroundImage = nextImage;
-            layer2.classList.remove('active');
-            layer1.classList.add('active');
-            activeLayer = 1;
+            layer2.classList.remove('active'); layer1.classList.add('active'); activeLayer = 1;
         }
     }
-
     setInterval(switchBanner, 4000);
 </script>
 </body>

@@ -59,28 +59,74 @@
         .search-box input { flex: 1; padding: 12px 20px; border: none; outline: none; background: transparent; }
         .search-box button { background: transparent; border: none; padding: 0 20px; cursor: pointer; color: #c45173; border-right: 1px solid #f4c0d3; }
         
-        /* أيقونات الرأس مع حركة التعويم الجديدة */
+        /* أيقونات الرأس (مخفية على الجوال، تظهر على الشاشات الكبيرة) */
         .header-icons { display: flex; gap: 22px; font-size: 1.4rem; color: #9c3b5a; }
         .header-icons a {
             color: #9c3b5a; text-decoration: none;
             position: relative; transition: color 0.3s;
-            animation: float 3s ease-in-out infinite; /* حركة التعويم الخفيفة */
         }
-        .header-icons a:nth-child(2) { animation-delay: 0.5s; } /* تأخير أيقونة العربة لتتحرك بشكل مختلف */
-        .header-icons a:hover {
-            animation: none; /* توقف الحركة عند التحويم لسهولة الضغط */
-            color: #c45173;
+        .header-icons a:hover { color: #c45173; }
+
+        /* ========== الأيقونات العائمة (Floating Fixed Icons) ========== */
+        .floating-icons {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        .header-icons a:hover .fa-heart {
-            animation: pulse 0.6s infinite; color: #e87d9a; /* نبض خاص للقلب */
+        .floating-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 6px 20px rgba(200, 120, 150, 0.25);
+            font-size: 1.3rem;
+            color: #9c3b5a;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            animation: softGlow 3s infinite;
         }
+        .floating-icons a:nth-child(2) { animation-delay: 1.5s; }
+        .floating-icons a:hover {
+            background: #e87d9a;
+            color: white;
+            transform: scale(1.1);
+        }
+        .floating-icons .cart-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #e87d9a;
+            color: white;
+            font-size: 0.65rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            line-height: 1;
+        }
+        @media (min-width: 769px) {
+            .floating-icons {
+                display: none; /* نخفي الأيقونات العائمة على الشاشات الكبيرة لأن أيقونات الرأس ظاهرة */
+            }
+        }
+
         .cart-count {
             position: absolute; top: -8px; left: -10px;
             background: #e87d9a; color: white;
             font-size: 0.65rem; width: 18px; height: 18px;
             border-radius: 50%; display: none; align-items: center;
             justify-content: center; font-weight: bold; line-height: 1;
-            animation: softGlow 2s infinite;
         }
         .nav-menu {
             margin: 15px 25px 25px; border-bottom: 1px solid #ffcfde;
@@ -231,7 +277,6 @@
     <div class="safety" style="background: #fdfbf9; padding: 28px 25px; border-radius: 30px; margin: 40px 25px 20px; border: 1px solid #f5e8e4;">
         <h3 style="font-family: 'El Messiri', serif; font-size: 1.8rem; margin-bottom: 20px; color: #6d4c41;">🔐 تسوقي بثقة – ضماناتنا لكِ</h3>
         <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 20px 40px;">
-            <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> ادفعي نصف ثمن المنتج + رسوم التوصيل فقط، والنصف الآخر عند الاستلام.</li>
             <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> يمكنك استرداد المنتج في نفس اليوم إذا لم يعجبكِ، بشرط أن يكون بحالته الأصلية.</li>
             <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> رسوم التوصيل: الوسطى 15 شيكل • غزة 20 شيكل • الجنوب 25 شيكل.</li>
             <li style="font-weight: 500; display: flex; align-items: center; gap: 12px; color: #4a3f3f;"><span style="background:#d4a373; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.9rem;">✓</span> دعم واتساب فوري للاستفسارات والمقاسات.</li>
@@ -239,6 +284,15 @@
     </div>
 
     <div class="footer"><div>© ٢٠٢٥ دانتيل • جميع الحقوق محفوظة</div></div>
+</div>
+
+<!-- ========== الأيقونات العائمة (تظهر عند التمرير على الجوال) ========== -->
+<div class="floating-icons">
+    <a href="favorites.html"><i class="far fa-heart"></i></a>
+    <a href="cart.html" style="position:relative;">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-count">0</span>
+    </a>
 </div>
 
 <script src="products.js"></script>

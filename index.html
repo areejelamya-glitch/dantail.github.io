@@ -58,10 +58,22 @@
         .search-box:hover { box-shadow: 0 0 25px rgba(232, 125, 154, 0.4); }
         .search-box input { flex: 1; padding: 12px 20px; border: none; outline: none; background: transparent; }
         .search-box button { background: transparent; border: none; padding: 0 20px; cursor: pointer; color: #c45173; border-right: 1px solid #f4c0d3; }
+        
+        /* أيقونات الرأس مع حركة التعويم الجديدة */
         .header-icons { display: flex; gap: 22px; font-size: 1.4rem; color: #9c3b5a; }
-        .header-icons a { color: #9c3b5a; text-decoration: none; position: relative; transition: color 0.3s; }
-        .header-icons a:hover { color: #c45173; }
-        .header-icons a:hover .fa-heart { animation: pulse 0.6s infinite; color: #e87d9a; }
+        .header-icons a {
+            color: #9c3b5a; text-decoration: none;
+            position: relative; transition: color 0.3s;
+            animation: float 3s ease-in-out infinite; /* حركة التعويم الخفيفة */
+        }
+        .header-icons a:nth-child(2) { animation-delay: 0.5s; } /* تأخير أيقونة العربة لتتحرك بشكل مختلف */
+        .header-icons a:hover {
+            animation: none; /* توقف الحركة عند التحويم لسهولة الضغط */
+            color: #c45173;
+        }
+        .header-icons a:hover .fa-heart {
+            animation: pulse 0.6s infinite; color: #e87d9a; /* نبض خاص للقلب */
+        }
         .cart-count {
             position: absolute; top: -8px; left: -10px;
             background: #e87d9a; color: white;
@@ -123,10 +135,9 @@
         }
         .hero-btn:hover { background: #ffe8f0; transform: translateY(-2px); animation: none; }
 
-        /* شبكة المنتجات - النسخة المحسنة */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* عمودين على الجوال */
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px; margin: 15px 10px 25px;
         }
         @media (min-width: 480px) {
@@ -188,7 +199,10 @@
 <div class="container">
     <div class="top-promo">
         <div class="promo-left"><span><i class="fas fa-truck"></i>التوصيل مجاني عند الطلب ب500 شيكل فما فوق</span></div>
-        <div class="promo-right"><a href="#">من نحن</a><a href="#">اتصل بنا</a><a href="faq.html">مساعدة</a></div>
+        <div class="promo-right">
+            <a href="us.html">من نحن</a>
+            <a href="#">اتصل بنا</a>
+        </div>
     </div>
     <div class="header-main">
         <div class="logo"><h1>دانتيل</h1><div style="font-size:0.85rem; color:#b2536e;">ليلتكِ أجمل معنا</div></div>
@@ -224,7 +238,7 @@
         </ul>
     </div>
 
-    <div class="footer"><div>© ٢٠٢٥ دانتيل • جميع الحقوق محفوظة</div><div><a href="faq.html" style="color:#8d5a6b;">مساعدة</a></div></div>
+    <div class="footer"><div>© ٢٠٢٥ دانتيل • جميع الحقوق محفوظة</div></div>
 </div>
 
 <script src="products.js"></script>
